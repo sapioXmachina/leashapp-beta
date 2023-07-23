@@ -1,0 +1,46 @@
+<table class="table caption-top">
+  <caption>List of Pets</caption>
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col"><%= link_to 'Name', sort_pets_path(sort_by: 'name', order_by: 'asc'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Breed', sort_pets_path(sort_by: 'breed'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Age', sort_pets_path(sort_by: 'age'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Weight', sort_pets_path(sort_by: 'weight'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Neutered', sort_pets_path(sort_by: 'neutered'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Groups', sort_pets_path(sort_by: 'groups'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Puppies', sort_pets_path(sort_by: 'puppies'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Schedule', sort_pets_path(sort_by: 'schedule'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Notes', sort_pets_path(sort_by: 'notes'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Client', sort_pets_path(sort_by: 'client'), class: "text-decoration-none" %></th>
+      <th scope="col"><%= link_to 'Account', sort_pets_path(sort_by: 'account'), class: "text-decoration-none" %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pets.each do |p| %>
+    <tr>
+      <td>
+      <% if p.photo? %>
+          <%= link_to image_tag(p.photo.url, class: "bg-secondary bg-opacity-25 rounded-circle img-responsive img-raised", alt: "Responsive image", :size => "100x100"), pet_path(p) %>
+        </td>
+      <% else %>
+          <%= link_to image_tag("pet-dog-leash-250.png", class: "bg-secondary bg-opacity-25 rounded-circle img-responsive img-raised", alt: "Responsive image", :size => "100x100"), pet_path(p) %>
+        </td>
+      <% end %>
+      <td scope="row">
+        <%= link_to p.name, pet_path(p), class: "btn btn-secondary" %>
+      </td>
+      <td><%= p.breed %></td>
+      <td><%= p.age %></td>
+      <td><%= p.weight %></td>
+      <td><%= p.neutered %></td>
+      <td><%= p.groups %></td>
+      <td><%= p.puppies %></td>
+      <td><%= p.schedule %></td>
+      <td><%= p.notes %></td>
+      <td><%= p.client.name %></td>
+      <td><%= p.client.account.account_name %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

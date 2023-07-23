@@ -1,0 +1,71 @@
+<table class="table caption-top">
+  <% if @pets.any? %>
+    <% if @query.present? %>
+      <caption>Search results of '<%= params[:query] %>' :</caption>
+    <% elsif params[:sort_column].present? %>
+      <caption>Sorted by '<%= params[:sort_column] %>' :</caption>
+    <% else %>
+      <caption>List of Pets</caption>
+    <% end %>
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+          <%= sortable 'name', 'Name' %></th>
+        <th scope="col">
+          <%= sortable 'breed', 'Breed' %></th>
+        <th scope="col">
+          <%= sortable 'age', 'Age' %></th>
+        <th scope="col">
+          <%= sortable 'weight', 'Weight' %></th>
+        <th scope="col">
+          <%= sortable 'name', 'Neutered' %></th>
+        <th scope="col">
+          <%= sortable 'groups', 'Groups' %></th>
+        <th scope="col">
+          <%= sortable 'puppies', 'Puppies' %></th>
+        <th scope="col">
+          <%= sortable 'schedule', 'Schedule' %></th>
+        <th scope="col">
+          <%= sortable 'notes', 'Notes' %></th>
+        <th scope="col">
+          <%= sortable 'client_id', 'Client' %></th>
+        <th scope="col">
+          <%= sortable 'account_id', 'Account' %></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @pets.each do |pet| %>
+      <tr>
+        <td>
+        <% if pet.photo? %>
+            <%= link_to image_tag(pet.photo.url, class: "bg-secondary bg-opacity-25 rounded-circle img-responsive img-raised", alt: "Responsive image", :size => "100x100"), pet_path(pet) %>
+          </td>
+        <% else %>
+            <%= link_to image_tag("pet-dog-leash-250.png", class: "bg-secondary bg-opacity-25 rounded-circle img-responsive img-raised", alt: "Responsive image", :size => "100x100"), pet_path(pet) %>
+          </td>
+        <% end %>
+        <td scope="row">
+          <%= link_to pet.name, pet_path(pet), class: "btn btn-secondary" %>
+        </td>
+        <td><%= pet.breed %></td>
+        <td><%= pet.age %></td>
+        <td><%= pet.weight %></td>
+        <td><%= pet.neutered %></td>
+        <td><%= pet.groups %></td>
+        <td><%= pet.puppies %></td>
+        <td><%= pet.schedule %></td>
+        <td><%= pet.notes %></td>
+        <td><%= pet.client.name %></td>
+        <td><%= pet.client.account.account_name %></td>
+      </tr>
+    <% end %>
+      </tbody>
+    </table>
+  <% else %>
+      <caption>No records match '<%= params[:query] %>'</caption>
+    </table>
+    <div class="col-auto ps-2 pe-2">
+      <%= link_to "Clear Search", manage_pets_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>

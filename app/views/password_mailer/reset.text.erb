@@ -1,0 +1,9 @@
+Hi <%= params[:user].email %>,
+<br><br>
+Someone requested to reset your password.
+<br><br>
+If this was you, click the link to reset your password. Please note this link will expire in 15 minutes.
+<br><br>
+<%= pw_reset_edit_url(token: @token) %>
+<br><br>
+#LeashApp

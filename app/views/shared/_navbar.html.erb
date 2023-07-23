@@ -1,0 +1,16 @@
+<nav class="navbar sticky-top navbar-expand-lg bg-white nav-background">
+  <div class="container-fluid">
+    <%= link_to image_tag("navbar-brand-logo-300.webp", class: "img-fluid", alt: "Responsive image"), root_path, class: "navbar-brand mx-auto" %>
+    <div class="container">
+      <!--<div class="row position-absolute pt-4 ps-2 pe-2" id="navalerts">-->
+      <!--    <#%= render partial: "shared/flash" %>-->
+      <!--</div>-->
+      <div class="row position-absolute top-50 end-0 mt-4 pt-5 ps-4 pe-4 me-1 ms-1" id="navalerts">
+          <%= render partial: "shared/flash" %>
+      </div>
+      <div class="row">
+        <%= render partial: "shared/navbar_toggler" %>
+      </div>
+    </div>
+  </div>
+</nav>

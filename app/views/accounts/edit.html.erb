@@ -1,0 +1,83 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Edit Account</h1>
+  <hr>
+  <h4>Update account details below</h4>
+  <hr>
+
+  <%= form_with model: @account, url: account_path(@account), method: :patch, local: true do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_name, "Account Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :account_name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :referral_key, "Referral Code :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if @account.referral_key.blank? %>
+        <input class="form-control text-danger" type="text" value="[*INACTIVE*]" aria-label="referral_key" disabled readonly>
+      <% else %>
+        <input class="form-control text-success" type="text" value="<%= @account.referral_key %>" aria-label="referral_key" disabled readonly>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_logo, "Logo/Brand/Image :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if @account.account_logo.attached? %>
+        <%= image_tag @account.account_logo, class: "img-fluid form-control", alt: "Responsive image" %>
+      <% else %>
+        <%= image_tag "account-logo.png", class: "img-fluid form-control", alt: "Responsive image" %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_logo, "New Logo :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.file_field :account_logo, class: "form-control", accept: "image/gif, image/jpg, image/jpeg, image/png, image/webp" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_description, "Description :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_area :account_description, rows: 4, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_rates, "Rates :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.number_field :account_rates, step: 0.01, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_admin, "Account Admin :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :user_id, @account.users.all&.order('name ASC'), :id, :name, { }, { multiple: true, class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :user_id, @account.users&.order('name ASC'), :id, :name, { }, { multiple: true, class: "form-control" } %>
+      <% end %>
+    </div>
+
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Update", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Back", account_path(@account), class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Reset", edit_account_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,3 @@
+<%- headers = ["Account", "Client", "Name", "Nickname", "Age", "Breed", "Neutered", "Weight", "Groups", "Puppies", "Notes", "Schedule", "Last Updated", "Date Created"] -%>
+<%= CSV.generate_line headers %><%- @pets_all.each do |p| -%><%= CSV.generate_line([p.client.account.account_name, p.client.name, p.name, p.nickname, p.age, p.breed, p.neutered, p.weight, p.groups, p.puppies, p.notes, p.schedule, p.updated_at, p.created_at]) -%>
+<%- end -%>

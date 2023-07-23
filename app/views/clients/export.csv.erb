@@ -1,0 +1,5 @@
+<%- headers = ["Account", "Name", "Email", "Phone 1", "Address", "Address2", "City", "State", "Zip Code", "Rate", "Payment Method", "Allow", "Last Updated", "Date Created"] -%>
+<%= CSV.generate_line headers -%><%- @clients_all.each do |p| -%><%= CSV.generate_line([p.account.account_name, p.name, p.email, p.phone1, p.address, p.address2, p.city, p.state, p.zipcode, (number_with_precision (p.rate), :precision => 2), p.payment_method, p.allowance, p.updated_at, p.created_at]) -%>
+<%- end -%>
+
+

@@ -1,0 +1,10 @@
+<p>Hi <%= @client.name %>,</p>
+<br>
+<p><%= @client.account.account_name %> invited you and your pets to join the #LeashApp Community for all your dog-walking needs.</p>
+<br>
+<p>To get started, please click on the following URL:</p>
+<p><a href="<%= ENV['MAILER_URL'] %><%= ENV['REFERRAL_URL'] %><%= @referral_code %>"><%= ENV['MAILER_URL'] %><%= ENV['REFERRAL_URL'] %><%= @referral_code %></a></p>
+<br>
+<p>Warmly,
+<br>#LeashApp</p>
+<br><br>

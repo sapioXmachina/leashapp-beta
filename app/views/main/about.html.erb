@@ -1,0 +1,63 @@
+<h1>#LeashApp</h1>
+<hr>
+<h3>Your Dog-walking Companion</h3>
+<hr>
+
+<div class="row row-cols-auto">
+  <div class="col-md-4 pb-3">
+    <h4>Data is everything!</h4>
+    <h5>#LeashApp allows you to easily manage and set up clients, rates, pets, walks. Boom: automated reports and invoices.<br>
+      <br>It's <%= Time.now.year %> y'all -- who doesn't want to automate boring administrative stuff.<br>
+      <br>Also, we rrrrove dogs. So choose Leash and...
+    </h5>
+    <ul>
+      <h6>
+        <li>Never see another spreadsheet again. Maybe?</li>
+        <li>Never miss sending that past due invoice email reminder (hopefully ever).</li>
+        <li>Never lose out on cancelled walks, well mostly!</li>
+      </h6>
+    </ul>
+    <br>
+    <h5><%= link_to "Join the beta", feedback_path %>, and take #LeashApp out on your walks today!</h5><br>
+    <hr>
+    <h5>Contact #LeashApp</h5>
+    <p>Feel free to <a href="mailto:speak@leashapp.io">reach out</a> with any questions -- happy to chat about our pets anytime!</p>
+    <hr>
+  </div>
+
+  <div class="col-md-4 pb-3 ps-5 pe-5">
+    <h4>Zen Who?</h4>
+    <h5>Meet them!</h5>
+      <%= image_tag "headshot-zenford-430.webp", class: "img-fluid", alt: "Responsive image" %>
+      <br><br>
+    <h6>
+      <ul>
+        <li>Linguist</li>
+        <li>Volleyball</li>
+        <li>Techie/Coder</li>
+        <li>Gaymer</li>
+        <li>DOG PARENT</li>
+        <li>Did I mention I love dogs?</li>
+      </ul>
+    </h6>
+    <hr>
+  </div>
+
+  <div class="col-md-4 pb-3 ps-5 pe-5">
+    <h4>The Chanz</h4>
+    <h5>Meet Channing!</h5>
+      <%= image_tag "headshot-chanz-430.webp", class: "img-fluid", alt: "Responsive image" %>
+      <br><br>
+    <h6>
+      <ul>
+        <li>Rescued from local shelter</li>
+        <li>German Shepherd</li>
+        <li>3-4 years old</li>
+        <li>Affectionate Pup</li>
+        <li>Can open doors (smart!)</li>
+        <li>Love language: nibbling</li>
+      </ul>
+    </h6>
+    <hr>
+  </div>
+</div>

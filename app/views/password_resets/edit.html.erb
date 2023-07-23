@@ -1,0 +1,53 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Reset Password</h1>
+  <hr>
+  <h4>Create a new password below</h4>
+  <hr>
+  
+  <%= form_with model: @user, url: reset_password_path(token: params[:token]) do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_name, "Account :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.collection_select :account_name, Account.where("id = ?", @user.account_id), :id, :account_name, { }, { :disabled => true, :class => "form-control" } %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.collection_select :name, User.where("email = ?", @user.email), :name, :name, { }, { :disabled => true, :class => "form-control" } %>
+    </div>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password, "New Password :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password_confirmation, "Confirm Password :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password_confirmation, class: "form-control" %>
+    </div>
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Reset Password", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Not you?", log_in_path, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Clear", reset_password_path(token: params[:token]), class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

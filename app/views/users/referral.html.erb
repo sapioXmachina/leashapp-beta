@@ -1,0 +1,49 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Welcome to #LeashApp!</h1>
+  
+  <%= form_with model: @user, url: account_referral_path do |f| %>
+    <!--<#% if f.object.errors.any? %>-->
+    <!--  <div class="alert alert-danger" role="alert">-->
+    <!--    <#% f.object.errors.full_messages.each do |message| %>-->
+    <!--      <div><#%= message %></div>-->
+    <!--    <#% end %>-->
+    <!--  </div>-->
+    <!--<#% end %>-->
+    
+    <div class="mb-3">
+      <%= f.label :account_id %>
+      <br>
+      <% if Current.user.nil? %>
+        <%= f.collection_select(:account_id, Account.all, :id, :account_name) %>
+      <% else %>
+        <%= f.collection_select(:account_id, Account.where("id = ?", Current.user.account_id), :id, :account_name) %>
+      <% end %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Preferred Name" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :email %>
+      <%= f.text_field :email, class: "form-control", placeholder: "zumaico@tainos.org" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: "form-control", placeholder: "password" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "password" %>
+    </div>
+    
+    <div class="mb-3">
+      <%= f.submit "Sign Up", class: "btn btn-primary" %>
+    </div>
+    <div class="mb-3">
+      <%= link_to "Cancel", :back, class: "btn btn-secondary" %>
+    </div>
+    <div class="mb-3">
+      <%= link_to "Reset", :account_referral, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

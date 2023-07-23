@@ -1,0 +1,10 @@
+Hi <%= @user.name %>,
+<br><br>
+Welcome to #LeashApp! <%= @user.account.account_name %> invites you to create an account to manage your dog-walking.
+<br><br>
+To accept this invitation, click on the URL below.
+<br><br>
+<%= confirm_email_user_url(@user.confirm_token) %>
+<br><br>
+Warmly,<br>
+#LeashApp

@@ -1,0 +1,50 @@
+<h1>User Management</h1>
+<hr>
+<h4>Manage <%= Current.user.account.account_name %>'s users</h4>
+<hr>
+
+<div class="row">
+  <div class="col-auto me">
+    <%= link_to "New User", create_user_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Export Users", "export.csv", class: "btn btn-secondary" %>
+  </div>
+</div>
+<hr>
+
+<div class="table-responsive">
+  <table class="table caption-top">
+    <caption>List of Users</caption>
+    <thead>
+      <tr>
+        <th scope="col">ID #</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">Account Name</th>
+        <th scope="col">Referral Code</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users_all.each do |p| %>
+      <tr>
+        <td><%= p.id %></td>
+        <th scope="row">
+          <%= link_to p.name, user_path(p), class: "btn btn-secondary" %>
+        </th>
+        <td><%= p.email %></td>
+        <td><%= p.role %></td>
+        <td><!--< %= p.account.account_name %>--></td>
+        <td><!--< %= p.account.referral_key %>--></td>
+        <td><%= p.updated_at&.strftime("%m/%d/%Y %I:%M %p") %></td>
+        <td>
+          <%= link_to "Reset", user_reset_pw_path(p), class: "btn btn-outline-success"%>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

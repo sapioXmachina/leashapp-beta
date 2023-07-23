@@ -1,0 +1,47 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Contact Us</h1>
+  <hr>
+  <h4>Joining the beta? Have feedback?</h4>
+  <hr>
+  <h6>Please fill out the form below:</h6>
+  
+  <%= form_with model: @contact, url: feedback_path do |f| %>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Email :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :email, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :subject, "Subject :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.select(:subject, ["Beta Sign Up", "General/Other", "Referral Code", "Login Issue", "Marketing", "Feedback"], { prompt: true }, { :class => "form-control" }) %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :message, "Message :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_area :message, rows: 4, class: "form-control", placeholder: "Please be as detailed as possible." %>
+    </div>
+    
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Send", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "Cancel", :back, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "Reset", feedback_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

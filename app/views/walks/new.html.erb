@@ -1,0 +1,93 @@
+<div class="col-md-6 offset-md-3">
+  <h1>New Walk</h1>
+  <hr>
+  <h4>Schedule a walk for <%= Current.user.account.account_name %></h4>
+  <hr>
+  
+  <%= form_with model: @walk, url: new_walk_path do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_id, "Account Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :account_id, Account.all, :id, :account_name, { prompt: true }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :account_id, Account.where("id = ?", Current.user.account_id), :id, :account_name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :client_id, "Client :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :client_id, Client.all, :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% elsif Current.user.role == "user" %>
+        <%= f.collection_select :client_id, Client.where("account_id = ? AND name != ?", Current.user.account_id, "New Client"), :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :client_id, Client.where("email = ? AND name != ?", Current.user.email, "New Client"), :id, :name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :pet_id, "Pet :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :pet_id, Pet.all, :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% elsif Current.user.role == "user" %>
+        <%= f.collection_select :pet_id, Pet.where("account_id = ? AND name != ?", Current.user.account_id, "New Pet"), :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :pet_id, Pet.where("account_id = ? AND name != ?", Current.user.account_id, "New Pet"), :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :startdatetime, "Date & Time :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.datetime_field :startdatetime, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :group_walk?, "Group Walk? :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :group, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :duration, "Duration :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :duration, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :notes, "Notes :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_area :notes, rows: 2, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :status, "Status :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.select :status, ["Requested", "Scheduled", "Confirmed", "Picked-Up", "Walking", "Dropped-Off", "Completed", "Not Invoiced", "Invoiced", "Paid", "Unpaid"], { selected: "Requested" }, { class: "form-control" } %>
+    </div>
+
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Schedule Walk", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Cancel", :back, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Reset", new_walk_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,72 @@
+<div class="col-md-6 offset-md-3">
+  <h1>New User</h1>
+  <hr>
+  <h4>Create a client user for <%= Current.user.account.account_name %></h4>
+  <hr>
+
+  <%= form_with model: @user, url: create_user_path do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_id, "Account :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :account_id, Account.all&.order('id ASC'), :id, :account_name, { prompt: true }, { class: "form-control" } %>
+      <% elsif Current.user.role == "user" || Current.user.role == "client" %>
+        <%= f.collection_select :account_id, Account.where("id = ?", Current.user.account_id), :id, :account_name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <% if Current.user.role == "admin" %>
+    <% else %>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <%= f.label :referral_key, "Referral Code :", class: "input-group-text fw-bold" %>
+        </div>
+        <%= f.collection_select :referral_key, Account.where("referral_key = ?", Current.user.account.referral_key), :referral_key, :referral_key, { }, { class: "form-control" } %>
+      </div>
+    <% end %>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Email :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :email, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password, "New Password :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password_confirmation, "Confirm Password :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password_confirmation, class: "form-control" %>
+    </div>
+
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Create User", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Cancel", manage_users_path, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Reset", create_user_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,3 @@
+<%- headers = ["Account ID", "Account Name", "Referral Key", "Last Updated", "Date Created"] -%>
+<%= CSV.generate_line headers -%><%- @accounts_all.each do |p| -%><%= CSV.generate_line([p.id, p.account_name, p.referral_key, p.updated_at, p.created_at]) -%>
+<%- end -%>

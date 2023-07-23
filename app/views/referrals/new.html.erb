@@ -1,0 +1,64 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Join the #LeashApp Community</h1>
+  <hr>
+  <h4>Sign Up with Dogwalker's Referral Code</h4>
+  <hr>
+  
+  <%= form_with model: @user, url: new_user_path do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :referral_key, "Referral Code :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :referral_key, class: "form-control", placeholder: "enter code here" %>
+      <!--<#% if Current.user.nil? %>-->
+      <!--  <#%= f.collection_select :account_id, Account.where("referral_key = ?", params[:referral_key]), :id, :account_name, { prompt: true }, { class: "form-control" } %>-->
+      <!--<#% else %>-->
+      <!--  <#%= f.collection_select :account_id, Account.where("id = ?", Current.user.account_id), :id, :account_name, { prompt: true }, { class: "form-control" } %>-->
+      <!--<#% end %>-->
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Email :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :email, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password, "Create Password :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password_confirmation, "Confirm Password :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password_confirmation, class: "form-control" %>
+    </div>
+  
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Sign Up", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "No referral code?", feedback_path, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "Reset", new_user_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,7 @@
+Hi <%= @user.name %>,
+<br><br>
+You are now registered! To confirm your email address click the URL below.
+<br><br>
+<%= confirm_email_user_url(@user.confirm_token) %>
+<br><br>
+#LeashApp

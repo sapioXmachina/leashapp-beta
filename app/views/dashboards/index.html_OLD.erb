@@ -1,0 +1,87 @@
+<h1>Dashboard</h1>
+<% if Current.user %>
+	<p>Hi <%= Current.user.name %>! You are logged in as <strong><%= Current.user.role %></strong>.</p>
+<% end %>
+<br>
+<div class="row">
+  <div class="col-auto pb-3">
+    <%= link_to "Users", manage_users_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto pb-3">
+    <%= link_to "Clients", manage_clients_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto pb-3">
+    <%= link_to "Pets", manage_pets_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto pb-5">
+    <%= link_to "Walks", manage_pets_path, class: "btn btn-primary" %>
+  </div>
+
+<br><br>
+<hr>
+
+<div class="row">
+  <div class="col pb-3">
+    <strong>Total Clients: <%= Client.where(id: Current.user.client.id)&.count %></strong>
+    <br>
+    Average Rate: $<%= (number_with_precision (Client.where(id: Current.user.client.id)&.average(:rates)), :precision => 2) %>
+    <br>
+    <!--Avg # of Pets: <em>Coming soon!</em>-->
+    <!--<br>-->
+    <!--Avg # of Walks: <em>Coming soon!</em>-->
+    <!--<br>-->
+  </div>
+  <div class="col-4">
+    <% if Current.user.admin? %>
+      <strong>Total Users: <%= User.count %></strong>
+      <br>
+      Total Admins: <%= User.where(:role => "admin")&.count %>
+      <br>
+      Total Client Accounts: <%= User.where(:role => "client")&.count %>
+    <% else %>
+      <strong>Total Client Accounts: <%= User.where(:role => "client")&.count %></strong>
+    <% end %>
+    <br><br>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col pb-3">
+    <strong>Total Pets: <%= Pet.where(id: Current.user.client.id)&.count %></strong>
+    <br>
+    Average Age: <%= Pet.where(id: Current.user.client.id)&.average(:age).round %> years
+    <br>
+    Age Range: <%= @youngest.age %>-<%= @eldest.age %> yo
+    <br>
+    Breeds: <%= Pet.where(id: Current.user.client.id)&.distinct(:breed)&.count %>
+    <br>
+    Male: <%= Pet.where(:sex => "M", id: Current.user.client.id)&.count %>
+    <br>
+    Female: <%= Pet.where(:sex => "F", id: Current.user.client.id)&.count %>
+    <br>
+    Neutered: <%= Pet.where(:neutered => "Yes", id: Current.user.client.id)&.count %>
+    <br>
+    Fertile: <%= Pet.where(:neutered => "No", id: Current.user.client.id)&.count %>
+  </div>
+  <div class="col-4">
+    <strong>Total Walks: <%= Walk.where(client_id: Current.user.client.id)&.count %></strong>
+    <br>
+    Hours Walked: <%= Walk.where(client_id: Current.user.client.id)&.sum(:duration) %> hrs
+    <br>
+    Average Duration: <%= (number_with_precision (Walk.where(client_id: Current.user.client.id)&.average(:duration)), :precision => 2) %> hrs
+    <br>
+    <!--Avg # of Pets: <em>Coming soon!</em>-->
+    <!--<br>-->
+    <!--Avg Walk Time: <em>Coming soon!</em>-->
+    <!--<br>-->
+    <!--Today's Walks: < #%= % >-->
+    <!--<br>-->
+    Upcoming Walks: <%= Walk.where(status: "Scheduled", client_id: Current.user.client.id)&.count %>
+    <br>
+    Completed Walks: <%= Walk.where(status: "Completed", client_id: Current.user.client.id)&.count %>
+    <br>
+    Subtotal of All Walks: $<%= (number_with_precision (Walk.where(status: "Completed")&.sum(:duration) * Client.where(pet_id: Current.user.client.pet.id)&.sum(:rates)), :precision => 2) %>
+    <br><br>
+  </div>
+</div>
+<hr>

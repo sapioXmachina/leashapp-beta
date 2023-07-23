@@ -1,0 +1,32 @@
+<div class="col-md-5 offset-md-3 text-center">
+  <h1>Send Referral Email</h1>
+  <br>
+  <%= form_with model: @client, url: contact_path do |f| %>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="client_id">Client</label>
+      </div>
+      <% if Current.user.admin? %>
+        <%= f.collection_select :client_email, Client.all, :id, :name, {prompt: "None Selected..."}, { :class => "form-control" } %>
+      <% else %>
+        <%= f.collection_select :client_id, Client.where("account_id = ?", Current.user.account_id), :id, :name, {}, { :class => "form-control" } %>
+      <% end %>
+    </div>
+  
+    <div class="mb-3">
+      <%= f.label :email %>
+      <%= f.text_field :email, class: "form-control" %>
+    </div>
+    
+    <div class="mb-3">
+      <%= f.label :message %>
+      <%= f.text_area :message, class: "form-control" %>
+    </div>
+    
+    <div class="mb-3">
+      <%= f.submit "Add Client", class: "btn btn-primary form-control" %>
+      <br><br>
+      <%= submit_tag("Reset", :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-secondary form-control') %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,106 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Join the #LeashApp Community</h1>
+  <hr>
+  <h4>Sign Up with Dogwalker's Referral Code</h4>
+  <hr>
+
+  <%= form_for @user, url: new_user_path do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :name, required: true, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Email :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :email, required: true, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password, "Create a Password :", required: true, class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password, required: true, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :password_confirmation, "Confirm Password : ", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.password_field :password_confirmation, required: true, class: "form-control" %>
+    </div>
+    
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend" id="referral-code">
+        <%= f.label :referral_key, "Referral Code :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :referral_key, required: true, class: "form-control" %>
+      <div class="input-group-append" id="referral-button">
+        <button type="button" class="btn btn-success">Submit Code</button>
+      </div>
+
+    </div>
+
+    <div class="input-group mb-3" id="referral-account">
+      <div class="input-group-prepend">
+        <%= f.label :account_id, "#LeashApp Account : Enter referral code above.", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.hidden_field :account_id, value: nil, autocomplete: "off" %>
+    </div>
+
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Sign Up", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "No referral code?", feedback_path, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "Reset", new_user_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("click", (evt) => {
+        const referralEl = document.getElementById("referral-account");
+        let targetEl = evt.target; // clicked element
+        do {
+          if(targetEl == referralEl) {
+            // This is a click inside, does nothing, just return.
+            // document.getElementById("referral-debug").textContent = "Clicked inside!";
+            return;
+          }
+          // Go up the DOM
+          targetEl = targetEl.parentNode;
+        } while (targetEl);
+        // This is a click outside.
+        // document.getElementById("referral-click").textContent = "Whaaaaa";
+
+        $(document).ready(function () {
+          var referral = $("#referral-account");
+          $("#referral-button").click(function () {
+            referral.html("<div class='input-group-prepend'><label for='account_id' class='input-group-text fw-bold'>#LeashApp Account :</label></div><select name='user[account_id]' id='user_account_id' class='form-control'><option value='<%= :account_id %>'><%= @account.account_name %></option>");
+          });
+        });
+      });
+    </script>
+
+  <% end %>
+</div>
+
+<!--<script>-->
+<!--  function getValue()-->
+<!--  {-->
+<!--  var id=document.getElementsById("referral-code")[0];-->
+<!--  alert(id.value);-->
+<!--  }-->
+<!--</script>-->

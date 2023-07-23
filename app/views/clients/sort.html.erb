@@ -1,0 +1,63 @@
+<h1>Clients Management</h1>
+<hr>
+<h4>Manage <%= Current.user.account.account_name %>'s clients</h4>
+<hr>
+
+<div class="row">
+  <div class="col-auto me">
+    <%= link_to "New Client", new_client_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Export Clients", "export.csv", class: "btn btn-secondary" %>
+  </div>
+  <div class="col-auto">
+  <%= form_tag search_clients_path, method: :get do %>
+    <%= text_field_tag :query, params[:query], placeholder: 'Search name/email' %>
+    <%= submit_tag 'Search' %>
+  <% end %>
+  </div>
+</div>
+<hr>
+
+<div class="table-responsive">
+  <table class="table caption-top">
+    <caption>Sorted by '<%= params[:sort_by] %>' :</caption>
+    <thead>
+      <tr>
+        <th scope="col">Account</th>
+        <th scope="col"><%= link_to 'Name', sort_clients_path(sort_by: 'name'), class: 'text-decoration-none' %></th>
+        <th scope="col"><%= link_to 'Email', sort_clients_path(sort_by: 'email'), class: 'text-decoration-none' %></th>
+        <th scope="col">Phone 1</th>
+        <th scope="col">Address</th>
+        <th scope="col">City</th>
+        <th scope="col">Pets</th>
+        <th scope="col">Rate</th>
+        <th scope="col">Payment Method</th>
+        <th scope="col">Allow</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clients.each do |p| %>
+      <tr>
+        <td><%= p.account.account_name %></td>
+        <th scope="row">
+          <%= link_to p.name, client_path(p), class: "btn btn-secondary" %>
+        </th>
+        <td><%= p.email %></td>
+        <td><%= p.phone1 %></td>
+        <td><%= p.address %></td>
+        <td><%= p.city %></td>
+        <td>
+        <% p.pets.each_with_object(p.pets.last) do |c, last| %>
+          <%= c.name %><%= "," unless c == last %>
+        <% end %>
+        <!--<#%= p.pets.name %>-->
+        </td>
+        <td>$<%= (number_with_precision (p.rate), :precision => 2) %></td>
+        <td><%= p.payment_method %></td>
+        <td><%= p.allowance %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

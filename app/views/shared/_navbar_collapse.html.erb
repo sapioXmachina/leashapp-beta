@@ -1,0 +1,105 @@
+<ul class="navbar-nav me-auto mb-lg-0">
+  <li class="nav-item">
+    <%= link_to "Home", root_path, class: "nav-link" %>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="/about" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      About
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+        <%= link_to "What's #LeashApp", about_path, class: "dropdown-item" %>
+      </li>
+      <li>
+        <hr>
+      </li>
+      <li>
+        <%= link_to "Privacy Policy", privacy_policy_path, class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Cookies", cookies_path, class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Accessibility", accessibility_path, class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Acceptable Use", acceptable_use_path, class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "EULA", eula_path, class: "dropdown-item" %>
+      </li>
+      <li>
+        <%= link_to "Terms of Service", terms_service_path, class: "dropdown-item" %>
+      </li>
+    </ul>
+  </li>
+  <% if Current.user.nil? %>
+  <% else %>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Beta
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li>
+          <%= link_to "Dashboard", dashboard_path, class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "User Guide", comingsoon_path, class: "dropdown-item" %>
+        </li>
+        <li>
+          <hr>
+        </li>
+        <li>
+          <%= link_to "Users", manage_users_path, class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Clients", manage_clients_path, class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Pets", manage_pets_path, class: "dropdown-item" %>
+        </li>
+        <li>
+          <%= link_to "Walks", manage_walks_path, class: "dropdown-item" %>
+        </li>
+        <li>
+          <hr>
+        </li>
+        <li>
+          <%= link_to "Invoices", invoices_path, class: "dropdown-item" %>
+        </li>
+        <% if Current.user.role == "admin" %>
+          <li>
+            <%= link_to "Reports", reports_path, class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "Referrals", courier_path, class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "Accounts", manage_accounts_path, class: "dropdown-item" %>
+          </li>
+        <% else %>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+  <li>
+    <%= link_to "Contact", feedback_path, class: "nav-link" %>
+  </li>
+</ul>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+  <% if Current.user %>
+    <li class="nav-item">
+      <a class="nav-link" href="<%= user_edit_path %>"><i class="bi bi-person-circle" style="font-size: 1.5rem;">&nbsp;</i><%= Current.user.name %></a>
+      <!--<#%= link_to Current.user.email, edit_password_path(User), class: "nav-link" %>-->
+    <li class="nav-item pt-2">
+      <%= button_to "Log out", log_out_path, method: :delete, class: "btn btn-outline-secondary" %>
+    </li>
+  <% else %>
+    <li class="nav-item">
+      <%= link_to "Sign Up", feedback_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Log In", log_in_path, class: "nav-link" %>
+    </li>
+  <% end %>
+</ul>

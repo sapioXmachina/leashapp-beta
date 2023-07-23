@@ -1,0 +1,31 @@
+<% if Current.user.nil? %>
+<% elsif Current.user.role == "admin" %>
+  <div class="pb-1">
+    <%= link_to "Accounts", manage_accounts_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Users", manage_users_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Clients", manage_clients_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Pets", manage_pets_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Walks", manage_walks_path, class: "btn btn-primary btn-sm" %>
+  </div>
+<% else %>
+  <div class="pb-1">
+    <%= link_to "Users", manage_users_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Clients", manage_clients_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Pets", manage_pets_path, class: "btn btn-primary btn-sm" %>
+  </div>
+  <div class="pb-1">
+    <%= link_to "Walks", manage_walks_path, class: "btn btn-primary btn-sm" %>
+  </div>
+<% end %>

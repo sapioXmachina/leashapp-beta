@@ -1,0 +1,67 @@
+<div class="row align-items-center">
+  <div class="col-auto me">
+    <h1><%= @user.name %></h1>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Edit User", edit_user_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto">
+    <%= link_to "View All Users", manage_users_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-auto me-auto">
+    <span class="fw-bold">Updated:</span> <%= @user.updated_at&.strftime("%m/%d/%Y @%I:%M %p") %>
+  </div>
+  <div class="col-auto">
+    <span class="fw-bold">Updated:</span> <%= @user.created_at&.strftime("%m/%d/%Y") %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-auto me-auto">
+    <p>
+      <strong>Account:</strong> <%= @user.account.account_name %>
+    </p>
+    <p>
+      <strong>Name:</strong> <%= @user.name %>
+    </p>
+    <p>
+      <strong>Email:</strong> <%= @user.email %>
+    </p>
+    <p>
+      <strong>Last Login:</strong> Coming soon!
+    </p>
+  </div>
+  <% if Current.user.admin? %>
+    <div class="col-auto">
+      <p>
+        <span class="fw-bold">Referral Code:</span>
+        [<% if @user.account.referral_key.nil? %>
+          <span class="text-danger">*INACTIVE*
+        <% else %>
+          <span class="text-success"><%= @user.account.referral_key %>
+        <% end %></span>]
+      </p>
+      <p>
+        <strong>Role:</strong> <%= @user.role %>
+      </p>
+    </div>
+  <% else %>
+    <div class="col-auto">
+      <p>
+        <span class="fw-bold">Referral Code:</span>
+        [<% if @user.account.referral_key.nil? %>
+          <span class="text-danger">*INACTIVE*
+        <% else %>
+          <span class="text-success"><%= @user.account.referral_key %>
+        <% end %></span>]
+      </p>
+    </div>
+  <% end %>
+</div>

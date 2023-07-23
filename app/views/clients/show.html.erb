@@ -1,0 +1,95 @@
+<div class="row align-items-center">
+  <div class="col-auto me">
+    <h1><%= @client.name %></h1>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Edit Client", edit_client_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto">
+    <%= link_to "View All Clients", manage_clients_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-auto me-auto">
+    <span class="fw-bold">Updated:</span> <%= @client.updated_at&.strftime("%m/%d/%Y @%I:%M %p") %>
+  </div>
+  <div class="col-auto">
+    <span class="fw-bold">Created:</span> <%= @client.created_at&.strftime("%m/%d/%Y") %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-auto me">
+    <p>
+      <strong>Name:</strong> <%= @client.name %>
+    </p>
+    <p>
+      <strong>Email:</strong> <%= @client.email %>
+    </p>
+    <p>
+      <strong>Phone 1:</strong> <%= @client.phone1 %>
+    </p>
+    <p>
+      <strong>Phone 2:</strong> <%= @client.phone2 %>
+    </p>
+    <p>
+      <strong>Address:</strong> <%= @client.address %>
+    </p>
+    <p>
+      <strong>Address 2:</strong> <%= @client.address2 %>
+    </p>
+    <p>
+      <strong>City:</strong> <%= @client.city %>
+    </p>
+    <p>
+      <strong>State:</strong> <%= @client.state %>
+    </p>
+    <p>
+      <strong>Zip Code:</strong> <%= @client.zipcode %>
+    </p>
+  </div>
+  <div class="col-auto me-auto">
+    <p>
+      <strong>Emergency Contact:</strong> <%= @client.emergcontact_name %>
+    </p>
+    <p>
+      <strong>Emergency Phone:</strong> <%= @client.emergcontact_phone %>
+    </p>
+    <p>
+      <strong>Pets (<%= @pets.size %>):</strong>
+      <% @pets.each_with_object(@pets.last) do |p, last| %>
+        <%= p.name %><%= "," unless p == last %>
+      <% end %>
+    </p>
+    <p>
+      <strong>Schedule:</strong> <%= @client.schedule %>
+    </p>
+    <p>
+      <strong>Rate:</strong> $<%= (number_with_precision (@client.rate), :precision => 2) %>
+    </p>
+    <p>
+      <strong>Payment Method:</strong> <%= @client.payment_method %>
+    </p>
+    <p>
+      <strong>Allowed:</strong> <%= @client.allowance %>
+    </p>
+  </div>
+  <div class="col-auto">
+    <p>
+      <span class="fw-bold">Referral Code:</span>
+        [<% if @client.account.referral_key.nil? %>
+          <span class="text-danger">*INACTIVE*
+        <% else %>
+          <span class="text-success"><%= @client.account.referral_key %>
+        <% end %></span>]
+    </p>
+    <p>
+      <strong>Account:</strong> <%= @client.account.account_name %>
+    </p>
+  </div>
+</div>

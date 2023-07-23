@@ -1,0 +1,62 @@
+<h1>Invoice Management</h1>
+<h3><%= @client.name %> @<%= @client.account.account_name %></h3>
+<% if Current.user %>
+  <p>Hi <%= Current.user.name %>! You are logged in as <strong><%= Current.user.role %></strong>.</p>
+<% end %>
+<br>
+<div class="row">
+  <div class="col-auto me">
+    <%= link_to "Create New Invoice", new_invoice_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Export All Invoices", ":id/export_client.csv", class: "btn btn-secondary" %>
+    <!--<br><br>
+    <#%= link_to "Export", invoice_path(format: 'csv') %>-->
+  </div>
+</div>
+<br>
+<hr>
+
+<div class="table-responsive">
+  <table class="table caption-top">
+    <caption>List of Invoices</caption>
+    <thead>
+      <tr>
+        <th scope="col">Date & Time</th>
+        <th scope="col">Client</th>
+        <th scope="col">Email</th>
+        <th scope="col">Address</th>
+        <th scope="col">City</th>
+        <th scope="col">Pets</th>
+        <th scope="col">Group</th>
+        <th scope="col">Notes</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Rate</th>
+        <th scope="col">Payment Method</th>
+        <th scope="col">Subtotal</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <% @walks_all.each do |p| %>
+      <tr>
+        <th scope="row">
+          <%= link_to p.startdatetime.strftime("%b %d '%y @%-l:%M %p"), walk_path(p), class: "btn btn-secondary" %>
+        </th>
+        <td><%= p.client.name %></td>
+        <td><%= @client.email %></td>
+        <td><%= @client.address %></td>
+        <td><%= @client.city %></td>
+        <td><%= p.pet.name %></td>
+        <td><%= p.group %></td>
+        <td><%= p.notes %></td>
+        <td><%= p.duration %></td>
+        <td><%= @client.rate %></td>
+        <td><%= @client.payment_method %></td>
+        <td>$<%= (number_with_precision (@client.rate.to_f * p.duration.to_f), :precision => 2) %><!--<#%= p.subtotal %>--></td>
+        
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,75 @@
+<h1>Invoices Management</h1>
+<hr>
+<div class="row">
+  <div class="col-auto">
+    <%= link_to "Export All Invoices", "export.csv", class: "btn btn-secondary" %>
+  </div>
+</div>
+<br>
+<hr>
+
+<div class="table-responsive">
+  <table class="table caption-top">
+    <caption>List of Invoices</caption>
+    <thead>
+      <tr>
+        <th scope="col">Date & Time</th>
+        <th scope="col">Account</th>
+        <th scope="col">Client</th>
+        <th scope="col">Pet</th>
+        <th scope="col">Address</th>
+        <th scope="col">Group Walks</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Rate</th>
+        <th scope="col">Notes</th>
+        <th scope="col">Status</th>
+        <th scope="col">Subtotal</th>
+    <!--    <th scope="col">Account</th>-->
+    <!--    <th scope="col">Client</th>-->
+    <!--    <th scope="col">Email</th>-->
+        <!--<th scope="col">Address</th>-->
+    <!--    <th scope="col">City</th>-->
+    <!--    <th scope="col">Pets</th>-->
+    <!--    <th scope="col">Rates</th>-->
+    <!--    <th scope="col">Payment Method</th>-->
+    <!--    <th scope="col">Subtotal</th>-->
+      </tr>
+    </thead>
+    <tbody>
+      <% @walks_all.each do |p| %>
+      <tr>
+        <th scope="row">
+          <%= link_to p.startdatetime.strftime("%b %d '%y @%-l:%M %p"), walk_path(p), class: "btn btn-secondary" %>
+        </th>
+        <td><%= p.account.account_name %></td>
+        <td><%= p.client.name %></td>
+        <td><%= p.pet.name %></td>
+        <td><%= p.client.address %></td>
+        <td><%= p.group %></td>
+        <td><%= (number_with_precision (p.duration), :precision => 2) %> hrs</td>
+        <td>$<%= (number_with_precision (p.client.rate), :precision => 2) %></td>
+        <td><%= p.notes %></td>
+        <td><%= p.status %></td>
+        <td>$<%= (number_with_precision (p.client.rate.to_f * p.duration.to_f), :precision => 2) %></td>
+    
+    
+    
+    <!--<tbody>-->
+    <!--  <#% @walks_all.each do |p| %>-->
+    <!--  <tr>-->
+    <!--    <td><#%= p.account.account_name %></td>-->
+    <!--    <th scope="row">-->
+    <!--      <#%= link_to p.name, invoice_path(p), class: "btn btn-secondary" %>-->
+    <!--    </th>-->
+    <!--    <td><#%= p.email %></td>-->
+        <!--<td><@%= p.client.address %></td>-->
+    <!--    <td><#%= p.city %></td>-->
+    <!--    <td><#%= p.pet.name %></td>-->
+    <!--    <td><#%= p.rate %></td>-->
+    <!--    <td><#%= p.payment_method %></td>-->
+    <!--    <td>"0"</td>-->
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,84 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Beta Feedback</h1>
+  <hr>
+  <h4>Thanks for your support!</h4>
+  <hr>
+  <h6>Please fill out the form below:</h6>
+  
+  <%= form_with model: @beta, url: beta_feedback_path do |f| %>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account, "Account :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :account, Account.order('id ASC'), :id, :account_name, { prompt: true }, { :class => "form-control" } %>
+      <% else %>
+        <input class="form-control" type="text" value="<%= Current.user.account.account_name %>" aria-label="account">
+      <% end %>
+    </div>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :name, User.order('id ASC'), :id, :name, { prompt: true }, { :class => "form-control" } %>
+      <% else %>
+        <%= f.collection_select :name, User.where("id = ?", Current.user.id), :id, :name, { }, { :disabled => true, :class => "form-control" } %>
+        <!--<input class="form-control" type="text" value="<#%= Current.user.name %>" aria-label="name">-->
+      <% end %>
+    </div>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Email :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :email, User.all, :email, :email, { }, { :class => "form-control" } %>
+      <% elsif Current.user.role == "user" %>
+        <%= f.collection_select :email, User.where("email = ?", Current.user.email), :email, :email, { }, { :class => "form-control" } %>
+      <% else %>
+        <%= f.collection_select :email, User.where("email = ?", Current.user.email), :email, :email, { }, { :class => "form-control" } %>
+      <% end %>
+    </div>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :client_id, "Client :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :client_id, Client.all, :id, :name, { }, { :class => "form-control" } %>
+      <% elsif Current.user.role == "user" %>
+        <%= f.collection_select :client_id, Client.where("account_id = ? AND name != ?", Current.user.account_id, "New Client"), :id, :name, { prompt: true }, { :class => "form-control" } %>
+      <% else %>
+        <%= f.collection_select :client_id, Client.where("email = ?", Current.user.email), :id, :name, { }, { :class => "form-control" } %>
+      <% end %>
+    </div>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :subject, "Subject :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.select(:subject, ["General Feedback", "Login/Account Issue", "Navigation", "Visuals/Media", "Other Not Listed", "-------", "Users", "Clients", "Pets", "Walks", "Invoices"], { prompt: true }, { :class => "form-control" }) %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :message, "Message :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_area :message, rows: 4, :class => "form-control", placeholder: "Please be as detailed as possible. Include where possible any spage you were navigating, any actions you took, and/or what any unexpected outcomes. Your help is greatly appreciated! :)" %>
+    </div>
+    
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Submit", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "Cancel", :back, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2 pb-2">
+        <%= link_to "Reset", beta_feedback_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

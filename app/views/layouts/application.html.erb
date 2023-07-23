@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>[Beta]&nbsp;&#35;LeashApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= favicon_link_tag asset_path(ENV['FAVICON']) %>
+    
+  <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <!-- CSS -->
+    <!-- BOOTSTRAP 5.2.0 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!-- BOOTSTRAP ICONS 1.10.5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+	<!-- TURBO -->
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_tag "application", "data-turbolinks-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+  </head>
+
+  <body>
+    <style>
+      .nav-background {
+        background-image: url("<%= ENV['PAWPRINTS'] %>");
+        background-size: cover;
+    
+        /* Workaround for some mobile browsers */
+        min-width: 100%;
+      }
+    </style>
+    <div class="col-md-10 offset-md-1">
+      <%= render partial: "shared/navbar" %>
+
+      <div class="container">
+        <!--<$%= render partial: "shared/flash" %>-->
+
+        <div class="container-fluid pb-3 pt-3">
+          <%= yield %>
+
+          <% if Current.user.nil? %>
+          <% else %>
+          <hr>
+            <p class="text-center fw-bold">
+              Submit Beta Feedback by
+              <a class="text-decoration-none" href="<%= beta_feedback_path %>">clicking here</a>
+            </p>
+          <hr>
+          <% end %>
+          <br>
+          <div class="card text-center">
+            <div class="card-header justify-content-center">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="true" href="<%= root_path %>">#LeashApp</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= about_path %>">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= privacy_policy_path %>">Privacy</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= cookies_path %>">Cookies</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= accessibility_path %>">Accessibility</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= acceptable_use_path %>">Acceptable Use</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= eula_path %>">EULA</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= terms_service_path %>">Terms of Service</a>
+                </li>
+                <% if Current.user.nil? %>
+                <% elsif Current.user.role == "admin" %>
+                  <li>
+                    <a class="nav-link" href="<%= contact_leash_path %>">Data Request</a>
+                  </li>
+                  <li>
+                    <%= link_to "Contact_PATH", contact_path, class: "nav-link" %>
+                  </li>
+                <% else %>
+                <% end %>
+                <li>
+                  <a class="nav-link" href="<%= feedback_path %>">Contact</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <p class="card-text">&copy; <%= Time.now.year %> LeashApp | All rights reserved</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  <!-- jS -->
+    <!-- BOOTSTRAP 5.3.0 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+    <!-- USER WAY -->
+    <script>(function(){var s = document.createElement("script");s.setAttribute("data-account","0oTr1iDsRD");s.setAttribute("src","https://cdn.userway.org/widget.js");document.body.appendChild(s);})();</script><noscript>Please ensure Javascript is enabled for purposes of <a href="https://userway.org">website accessibility</a></noscript>
+
+  </body>
+</html>

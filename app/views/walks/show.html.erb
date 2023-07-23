@@ -1,0 +1,75 @@
+<div class="row align-items-center">
+  <div class="col-auto me">
+    <h1><%= @walk.startdatetime&.strftime("%b %-d '%y @%-l:%M %p") %></h1>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Edit Walk", edit_walk_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto">
+    <%= link_to "View All Walks", manage_walks_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-auto me-auto">
+    <span class="fw-bold">Updated:</span> <%= @walk.updated_at&.strftime("%m/%d/%Y @%I:%M %p") %>
+  </div>
+  <div class="col-auto">
+    <span class="fw-bold">Created:</span> <%= @walk.created_at&.strftime("%m/%d/%Y") %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm">
+    <p>
+      <strong>Date:</strong> <%= @walk.startdatetime&.strftime("%m/%d/%Y @%I:%M %p") %>
+    </p>
+    <p>
+      <strong>Client:</strong> <%= @walk.client.name %>
+    </p>
+    <p>
+      <strong>Pet:</strong> <%= @walk.pet.name %>
+    </p>
+    <p>
+      <strong>Group Walk:</strong> <%= @walk.group %>
+    </p>
+    <p>
+      <strong>Duration:</strong> <%= (number_with_precision (@walk.duration), :precision => 2) %> hrs
+    </p>
+    <p>
+      <strong>Rate:</strong> $<%= (number_with_precision (@walk.client.rate), :precision => 2) %>
+    </p>
+    <p>
+      <strong>Notes:</strong> <%= @walk.notes %>
+    </p><br>
+  </div>
+  <div class="col-auto">
+    <p>
+      <span class="fw-bold">Referral Code:</span>
+        [<% if @walk.account.referral_key.blank? %>
+          <span class="text-danger">*INACTIVE*
+        <% else %>
+          <span class="text-success"><%= @walk.account.referral_key %>
+        <% end %></span>]
+    </p>
+    <p>
+      <strong>Account:</strong> <%= @walk.account.account_name %>
+    </p>
+    <p>
+      <strong>Client:</strong> <%= @walk.client.name %>
+    </p>
+    <p>
+      <strong>Pet:</strong> <%= @walk.pet.name %>
+    </p>
+    <p>
+      <strong>Status:</strong> <%= @walk.status %>
+    </p>
+    <p>
+      <strong>Subtotal:</strong> $<%= (number_with_precision (@walk.client.rate.to_f * @walk.duration.to_f), :precision => 2) %>
+    </p>
+  </div>
+</div>

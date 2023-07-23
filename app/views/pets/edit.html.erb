@@ -1,0 +1,145 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Edit Pet</h1>
+  <hr>
+  <h4>Update pet details below</h4>
+  <hr>
+
+  <%= form_with model: @pet, url: pet_path(@pet), method: :patch, local: true do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_id, "Account :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.admin? %>
+        <%= f.collection_select :id, Account.all, :id, :account_name, { }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :id, Account.where("id = ?", Current.user.account_id), :id, :account_name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :client_id, "Client :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.admin? %>
+        <%= f.collection_select :client_id, Client.all, :id, :name, { }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :client_id, Client.where("account_id = ?", Current.user.account_id), :id, :name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :nickname, "Nickname :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :nickname, class: "form-control" %>
+    </div>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+      <% if @pet.photo.attached? %>
+          <%= f.label :photo, "Pet Photo :", class: "input-group-text fw-bold" %>
+        </div>
+        <%= image_tag @pet.photo, class: "img-fluid form-control", alt: "Responsive image" %>
+      </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+          <%= f.label :photo, "Replace Photo", class: "input-group-text fw-bold" %>
+        </div>
+        <%= f.file_field :photo, accept: "image/gif, image/jpeg, image/jpg, image/png", class: "form-control" %>
+        </div>
+        
+      <% else %>
+          <%= f.label :photo, "Pet Photo", class: "input-group-text fw-bold" %>
+        </div>
+        <%= f.file_field :photo, accept: "image/gif, image/jpeg, image/jpg, image/png", class: "form-control" %>
+        </div>
+      
+      <% end %>
+    
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :age, "Age :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :age, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :birthday, "Birthday :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.date_field :birthday, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :sex, "Sex :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :sex, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :breed, "Breed :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :breed, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :neutered, "Neutered :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :neutered, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :weight, "Weight :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :weight, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :groups, "Group Walks? :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :groups, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :puppies, "Puppies OK? :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :puppies, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :notes, "Notes :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_area :notes, rows: 2, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :schedule, "Schedule :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :schedule, class: "form-control" %>
+    </div>
+
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Update Pet", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Cancel", :back, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Reset", edit_pet_path(@pet), class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,55 @@
+<h1>Accounts Management</h1>
+<hr>
+<h4>Manage <%= Current.user.account.account_name %>'s accounts</h4>
+<hr>
+
+<div class="row">
+  <div class="col-auto me">
+    <%= link_to "New Account", create_account_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-auto me-auto">
+    <%= link_to "Export Accounts", "export.csv", class: "btn btn-secondary" %>
+  </div>
+</div>
+<hr>
+
+<div class="table-responsive">
+  <table class="table caption-top">
+    <caption>List of Accounts</caption>
+    <thead>
+      <tr>
+        <th scope="col">ID #</th>
+        <th scope="col">Logo</th>
+        <th scope="col">Account Name</th>
+        <th scope="col">Administrators</th>
+        <th scope="col">Referral Key</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">Date Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @accounts_all.each do |p| %>
+      <tr>
+        <td><%= p.id %></td>
+        <th scope="row">
+        <% if p.account_logo? %>
+          <%= link_to image_tag(p.account_logo.url, class: "bg-secondary bg-opacity-25 rounded-circle img-responsive img-raised", alt: "Responsive image", :size => "100x100"), pet_path(p) %></th>
+        <% else %>
+          <%= link_to image_tag("account-logo.png", class: "bg-secondary bg-opacity-25 rounded-circle img-responsive img-raised", alt: "Responsive image", :size => "100x100"), pet_path(p) %></th>
+        <% end %>
+        <th scope="row">
+          <%= link_to p.account_name, account_path(p), class: "btn btn-secondary" %>
+        </th>
+        <td>
+          <% p.users.where("role = ?", 3)&.each_with_object(p.users.last) do |p, last| %>
+            <%= p.name %><%= "," unless p == last %>
+          <% end %>
+        </td>
+        <td><%= p.referral_key %></td>
+        <td><%= p.updated_at&.strftime("%m/%d/%Y %I:%M %p") %></td>
+        <td><%= p.created_at&.strftime("%m/%d/%Y %I:%M %p") %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

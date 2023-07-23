@@ -1,0 +1,46 @@
+<h1>Dashboard</h1>
+<hr>
+<h3>Hi <%= Current.user.name %>! It's <%= Date.today.strftime("%A, %B ") + Time.now.day.ordinalize %>.</h3>
+<hr>
+
+<% if Current.user.present? %>
+  <div class="row pb-3">
+    <h5>Logged in as <span class="fw-bold"><%= Current.user.email %> (<%= Current.user.role %>)</span></h5>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col pb-3">
+    <strong>Clients: <%= Client.where(id: Current.user.account.id)&.count %></strong>
+  </div>
+  <div class="col pb-3">
+    <% if Current.user.admin? %>
+      <strong>Users: <%= User.count %></strong>
+      <br>
+      Admin Users: <%= User.where(:role => "admin")&.count %>
+      <br>
+      Dogwalkers: <%= User.where(:role => "user")&.count %>
+      <br>
+      Client Users: <%= User.where(:role => "client")&.count %>
+    <% else %>
+      <strong>Total Dogwalker Users: <%= User.where(:role => "user")&.count %></strong>
+      <br>
+      <strong>Client Users: <%= User.where(:role => "client")&.count %></strong>
+    <% end %>
+    <br><br>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col pb-3">
+    <strong>Pets: </strong>
+    <br>
+    <br>
+  </div>
+  <div class="col pb-3">
+    <strong>Walks: </strong>
+    <br>
+    <br>
+  </div>
+</div>
+<hr>

@@ -1,0 +1,28 @@
+databases:
+# staging
+  - name: leashapp_staging
+    region: oregon
+    databaseName: leash_db_aayd
+    user: leash_db_user
+
+# db 3
+  # - name: private database
+  #   databaseName: private
+  #   ipAllowList: [] # only allow internal connections
+  #   postgresMajorVersion: 15 # optional (defaults to the latest available, supported versions are 11, 12, 13, 14 and 15)
+
+services:
+#staging
+  - type: web
+    name: leash_staging
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: STAGING_DATABASE_URL
+        fromDatabase:
+          # Update name when switching databases
+          name: leashapp_staging
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false

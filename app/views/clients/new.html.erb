@@ -1,0 +1,125 @@
+<div class="col-md-6 offset-md-3">
+  <h1>New NEW Client</h1>
+  <hr>
+  <h4>Create a client for <%= Current.user.account.account_name %></h4>
+  <hr>
+  
+  <%= form_with model: @client, url: new_client_path do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_id, "Account :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :account_id, Account.all, :id, :account_name, { prompt: true }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :account_id, Account.where("id = ?", Current.user.account_id), :id, :account_name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_admin, "Account Admin :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :user_id, User.all&.where(role: "user"), :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :user_id, User.all&.where(account_id: Current.user.account_id, role: "user"), :id, :name, { }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :pet_id, "Pet :", class: "input-group-text fw-bold" %>
+      </div>
+      <% if Current.user.role == "admin" %>
+        <%= f.collection_select :pet_id, Pet.all, :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% else %>
+        <%= f.collection_select :pet_id, Pet.all.where("account_id = ?", Current.user.account_id), :id, :name, { prompt: true }, { class: "form-control" } %>
+      <% end %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :name, "Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Email :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :email, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :phone1, "Phone :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :phone1, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :address, "Address :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :address, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :address2, "Apt/Suite :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :address2, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :city, "City :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :city, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :state, "State :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :state, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :zip_code, "Zip Code :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :zipcode, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :rate, "Rate :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.number_field :rate, step: 0.01, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :payment_method, "Payment Method :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :payment_method, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :allowance, "Cancellations Allowed :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :allowance, class: "form-control" %>
+    </div>
+    
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Create Client", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Cancel", :back, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Reset", new_client_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

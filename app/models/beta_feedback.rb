@@ -1,0 +1,2 @@
+class BetaFeedback < ApplicationRecord
+end

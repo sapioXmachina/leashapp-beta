@@ -1,0 +1,45 @@
+<div class="col-md-5 offset-md-3 text-center">
+  <h1>Courier Mailer</h1>
+  
+  <%= form_with model: @client, url: courier_path, class: "form-control" do |f| %>
+    <div class="input-group mb-3 pt-3">
+      <div class="input-group-prepend">
+        <%= f.label :email, "Client :", class: "input-group-text fw-bold" %>
+        <!--<label class="" for="client_email">Client</label>-->
+      </div>
+      <% if Current.user.admin? %>
+        <%= f.collection_select :email, Client.all, :id, :name, {prompt: "None Selected..."}, { :class => "form-control" } %>
+      <% else %>
+        <%= f.collection_select :email, Client.where("account_id = ?", Current.user.account_id), :id, :name, {prompt: "None Selected..."}, { :class => "form-control" } %>
+      <% end %>
+    </div>
+    <!--<div class="mb-3">-->
+    <!--  <#%= label_tag(:subject) %>-->
+    <!--  <#%= text_field_tag(:subject) %>-->
+    <!--</div>-->
+    <!--<div class="mb-3">-->
+    <!--  <#%= label_tag(:body) %>-->
+    <!--  <#%= text_area_tag(:body) %>-->
+    <!--</div>-->
+    <div class="input-group mb-3 pt-3">
+      <div class="input-group-prepend">
+        <%= f.label :referral_key, "Referral Code :", class: "input-group-text fw-bold" %>
+        <!--<label class="" for="client_email">Client</label>-->
+      </div>
+      <%= f.collection_select :referral_key, Account.where("id = ?", Current.user.account_id), :referral_key, :referral_key, {prompt: "Select one..."}, { :class => "form-control" } %>
+    </div>
+    <!--<div class="mb-3">-->
+    <!--  <#%= submit_tag("Send", :class => 'form-control' ) %>-->
+    <!--  <br>-->
+    <!--  <#%= submit_tag("Reset", :name => 'reset', :id => 'reset', :type => 'reset', :class => 'form-control' ) %>-->
+    <!--</div>-->
+    <div class="mb-3 d-flex justify-content-center">
+      <div class="col-auto me-auto">
+        <%= f.submit "Send", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto">
+        <%= link_to "Cancel", courier_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,58 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Dogwalker? Join #LeashApp!</h1>
+  <hr>
+  <% if Current.user %>
+  	<p>Hi <%= Current.user.name %>! You are logged in as <strong><%= Current.user.role %></strong>.</p>
+  <% end %>
+  <hr>
+
+  <h4>Add New Account</h4>
+  <hr>
+
+  <%= form_with model: @account, url: new_account_path do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_name, "Account Name :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_field :account_name, class: "form-control" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_logo, "Logo/Brand/Image :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.file_field :account_logo, class: "form-control", accept: "image/gif, image/jpeg, image/jpg, image/png" %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_description, "Description :", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.text_area :account_description, rows: 3, class: "form-control", placeholder: "Business description that clients will see." %>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <%= f.label :account_rates, "Hourly Group Rate : $", class: "input-group-text fw-bold" %>
+      </div>
+      <%= f.number_field :account_rates, step: 0.01, class: "form-control" %>
+    </div>
+    
+    <div class="row pb-2 pt-2 mb-3 ps-2 pe-2 d-flex justify-content-between">
+      <div class="col-auto me ps-2 pe-2 pb-2">
+        <%= f.submit "Create Account", class: "btn btn-primary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Back", root_path, class: "btn btn-secondary" %>
+      </div>
+      <div class="col-auto ps-2 pe-2">
+        <%= link_to "Reset", new_account_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

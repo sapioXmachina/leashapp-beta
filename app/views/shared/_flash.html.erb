@@ -1,0 +1,52 @@
+<% if flash[:notice] %>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" id="flashalerts">
+    <div><%= flash[:notice] %></div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="flashalerts">
+    <div><%= flash[:alert] %></div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<% if flash[:success] %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert" id="flashalerts">
+    <div><%= flash[:success] %></div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<% if flash[:info] %>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" id="flashalerts">
+    <div><%= flash[:info] %></div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<% if flash[:danger] %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flashalerts">
+    <div><%= flash[:danger] %></div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<!--<#% flash.each do |key, value| %>-->
+<!--  <div class="alert alert-<#%= key %> alert-dismissible fade show mt-4" role="alert" id="flashalerts">-->
+<!--    <div><#%= value %></div>-->
+<!--    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--  </div>-->
+<!--<#% end %>-->
+
+<script>
+  $(document).ready(function () {
+    setTimeout(function () {
+      $("#flashalerts").css("display", "none");
+    }, 3500);
+    $("#flashalerts").click(function () {
+      $("#flashalerts").css("display", "none");
+    });
+  });
+</script>

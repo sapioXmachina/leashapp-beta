@@ -1,0 +1,3 @@
+<%- headers = ["Date and Time", "Account", "Client", "Pet", "Group Walk", "Duration", "Rates", "Notes", "Status", "Subtotal"] -%>
+<%= CSV.generate_line headers %><%- @walks_all.each do |p| -%><%= CSV.generate_line([p.startdatetime, p.account.account_name, p.client.name, p.pet.name, p.group, (number_with_precision (p.duration), :precision => 2), (number_with_precision (p.client.rate), :precision => 2), p.notes, p.status, (number_with_precision (p.client.rate.to_f * p.duration.to_f), :precision => 2)]) -%>
+<%- end -%>
